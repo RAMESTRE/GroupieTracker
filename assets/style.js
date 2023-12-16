@@ -10,7 +10,7 @@ function mOut(id) {
 }
 
 function key() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoicmFmbWUiLCJhIjoiY2wwZ3E4ejk3MDA2czNpcDVtMWpvYXM1diJ9.DsssCvcZ4fzeNj4s-i0wsw';
+    mapboxgl.accessToken = '';
     const mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
     return mapboxClient
 }
