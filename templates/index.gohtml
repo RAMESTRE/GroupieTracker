@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<link href="../assets/style.css" rel="stylesheet">
+
+<head>
+    <meta charset="utf-8">
+    <title>Groupie Tracker</title>
+    <script type="text/javascript" src="../assets/style.js"></script>
+    <link rel="icon" type="image/x-icon" href="../images/guitar_icon.png">
+</head>
+<body>
+
+<nav>
+    <div class="nav">
+
+        <div class="logo">
+            <a id="logo" href="/">GROUPIE TRACKER</a>
+        </div>
+
+        <div class="searchBar">
+            <form method="get" action="/">
+                <input class="search" type="text" placeholder="Search..." id="data" name="data" list="data-list" autocomplete="off">
+                <datalist id="data-list">
+                    {{with .Search}}
+                        {{range .ArtistBandName}}
+                            <option value="{{.}} - Artist/Band"></option>
+                        {{end}}
+                        {{range .Members}}
+                            <option value="{{.}} - Member"></option>
+                        {{end}}
+                        {{range .Location}}
+                            <option value="{{.}} - Location"></option>
+                        {{end}}
+                        {{range .CreationDate}}
+                            <option value="{{.}} - Creation Date"></option>
+                        {{end}}
+                        {{range .FirstAlbumDate}}
+                            <option value="{{.}} - First Album Date"></option>
+                        {{end}}
+                    {{end}}
+                </datalist>
+            </form>
+        </div>
+
+        <div class="menu">
+            <a href="/">Home</a>
+            <a href="/aboutUs">About Us</a>
+        </div>
+    </div>
+</nav>
+
+<div class="filterBar">
+    <form method="get">
+        <label for="CreationDate">Creation Date: </label>
+        <input type="range" id="CreationDate" name="CreationDate" class="value" min="{{.Search.MinCreationDate}}" max="{{.Search.MaxCreationDate}}" value="{{.Search.MinCreationDate}}">
+        <span id="value"></span> - {{.Search.MaxCreationDate}}
+        <script>
+            var value = document.getElementById("CreationDate")
+            var output = document.getElementById("value")
+            output.innerHTML = value.value;
+            value.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
+
+         | Members:
+        {{range .Search.MaxMembers}}
+            <input type="checkbox" name="{{.}}" value="{{.}}"> {{.}}
+        {{end}}
+
+        <label for="FirstAlbum">| First Album: </label>
+        <input type="range" id="FirstAlbum" name="FirstAlbum" class="valueAlbum" min="{{.Search.MinFirstAlbum}}" max="{{.Search.MaxFirstAlbum}}" value="{{.Search.MinFirstAlbum}}">
+        <span id="values"></span>  - {{.Search.MaxFirstAlbum}}
+        <script>
+            var valueAlbum = document.getElementById("FirstAlbum")
+            var outputAlbum = document.getElementById("values")
+            outputAlbum.innerHTML = valueAlbum.value;
+            valueAlbum.oninput = function() {
+                outputAlbum.innerHTML = this.value;
+            }
+        </script>
+        | Locations:
+        <select name="locationFilter">
+            <option value="">Choose a location</option>
+            {{range .Location}}
+                <option value="{{.}}">{{.}}</option>
+            {{end}}
+        </select>
+
+        <input type="submit">
+    </form>
+</div>
+
+<div id="conteneur">
+    {{range .Artist}}
+        <div onclick="window.location.href = '/artist/{{.Id}}';" class="box">
+            <div class="scroll">
+                <h2 id="{{.Id}}" onmouseover="mOver('{{.Id}}')" onmouseout="mOut('{{.Id}}')">{{.Name}}</h2>
+            </div>
+            <div class="img"><img src={{.Image}}></div>
+        </div>
+    {{end}}
+</div>
+
+{{if not .Artist}}
+    <div class="noResult">
+        <h1>No result</h1>
+        There are no result for your research
+    </div>
+
+{{end}}
+</body>
+</html>
