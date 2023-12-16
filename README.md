@@ -1,4 +1,4 @@
-<h1 align="center">Groupie Tracker</h1>
+<h1 align="center">Groupie Tracker (School Project made in 2022)</h1>
 
 # Objective
 
